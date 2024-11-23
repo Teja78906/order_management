@@ -10,7 +10,17 @@ This project allows you to:
 - Create, read, update, and delete orders.
 - Manage the relationship between products and orders using the `OrderProduct` entity.
 
-The backend is built using **Spring Boot**, and the data is stored in a **MySQL** database. All API endpoints follow RESTful conventions.
+The backend is built using **Spring Boot** with **Java Persistence API (JPA)** for database interaction, and the data is stored in a **MySQL** database. All API endpoints follow RESTful conventions.
+
+### JPA (Java Persistence API)
+
+This project utilizes **JPA** to handle database interactions with the MySQL database. JPA is a standard for object-relational mapping (ORM) in Java that allows for easy persistence of Java objects into relational databases.
+
+- **Entities**: The `Product`, `Order`, and `OrderProduct` classes are JPA entities that represent tables in the database. The relationships between these entities are defined using annotations like `@ManyToOne`, `@OneToMany`, and `@ManyToMany`.
+- **Repositories**: The `ProductRepository`, `OrderRepository`, and `OrderProductRepository` interfaces extend `JpaRepository`, which provides basic CRUD operations.
+- **Transactional Management**: The `@Transactional` annotation is used to manage the consistency of database operations within a transaction scope, ensuring that all changes are committed or rolled back together.
+
+By using JPA, we can seamlessly map Java objects to database tables, eliminating the need for boilerplate code when performing CRUD operations and allowing for better maintainability of database-related tasks.
 
 ## Prerequisites
 
