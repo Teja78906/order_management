@@ -1,7 +1,4 @@
-# order_management
-Here’s a `README.md` file for the **Order Management System** project with descriptions of the project, setup instructions, and API usage:
 
-```markdown
 # Order Management System
 
 The **Order Management System** (OMS) is a RESTful API designed to manage products, orders, and their relationships in an e-commerce system. The system allows for CRUD operations on products and orders, as well as managing the many-to-many relationship between orders and products through the `OrderProduct` entity.
@@ -52,10 +49,11 @@ Set up your MySQL database and create a schema. Modify the `application.properti
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/order_management
-spring.datasource.username=root
-spring.datasource.password=your_password
+spring.datasource.username=teja
+spring.datasource.password=teja
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+server.port=3000
 ```
 
 ### 4. Run the Application
