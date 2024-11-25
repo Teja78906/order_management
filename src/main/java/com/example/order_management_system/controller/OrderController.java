@@ -33,6 +33,10 @@ public class OrderController {
             response.put("orderId", createdOrder.getId().toString());
             response.put("message", "Order created successfully.");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }catch (ResourceNotFoundException e) {
+            response.put("status", "failure");
+            response.put("message", e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
             response.put("status", "failure");
             response.put("message", "An error occurred while creating the order.");
@@ -49,9 +53,13 @@ public class OrderController {
             response.put("status", "success");
             response.put("message", "Products added to order successfully.");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (Exception e) {
+        } catch (ResourceNotFoundException e) {
             response.put("status", "failure");
-            response.put("message", "An error occurred while adding products to the order.");
+            response.put("message", "Order or Product not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }catch (Exception e) {
+            response.put("status", "failure");
+            response.put("message", e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -106,7 +114,7 @@ public class OrderController {
         try {
             orderService.removeProductFromOrder(orderId, productId);
             response.put("status", "success");
-            response.put("message", " from order successfully.");
+            response.put("message", "Product Deleted from order successfully.");
             return ResponseEntity.ok(response);
         } catch (ResourceNotFoundException e) {
             response.put("status", "failure");

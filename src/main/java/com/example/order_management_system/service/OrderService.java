@@ -29,6 +29,9 @@ public class OrderService {
     public Order createOrder(Map<Long, Integer> productQuantities) {
         Order order = new Order();
         List<OrderProduct> orderProducts = productQuantities.entrySet().stream().map(entry -> {
+            if(entry.getValue()<=0){
+                throw new ResourceNotFoundException("Product quantity for product ID " + entry.getKey() + " must be greater than 0.");
+            }
             Product product = productRepository.findById(entry.getKey()).orElseThrow();
             OrderProduct orderProduct = new OrderProduct();
             orderProduct.setOrder(order);

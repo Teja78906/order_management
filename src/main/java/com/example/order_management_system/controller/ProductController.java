@@ -1,5 +1,6 @@
 package com.example.order_management_system.controller;
 
+import com.example.order_management_system.exception.ResourceNotFoundException;
 import com.example.order_management_system.model.Product;
 import com.example.order_management_system.service.ProductService;
 
@@ -33,7 +34,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             response.put("status", "failure");
-            response.put("message", "An error occurred while creating the product.");
+            response.put("message", e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
@@ -43,16 +44,14 @@ public class ProductController {
     public ResponseEntity<Map<String, String>> updateProduct(@PathVariable Long id, @RequestBody Product product) {
         Map<String, String> response = new HashMap<>();
         try {
-            Product updatedProduct = productService.updateProduct(id, product);
-            if (updatedProduct != null) {
-                response.put("status", "success");
-                response.put("message", "Product updated successfully.");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("status", "failure");
-                response.put("message", "Product not found.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
+            productService.updateProduct(id, product);
+            response.put("status", "success");
+            response.put("message", "Product updated successfully.");
+            return ResponseEntity.ok(response);
+        } catch (ResourceNotFoundException e) {
+            response.put("status", "failure");
+            response.put("message", "Product not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
             response.put("status", "failure");
             response.put("message", "An error occurred while updating the product.");
@@ -96,16 +95,14 @@ public class ProductController {
     public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) {
         Map<String, String> response = new HashMap<>();
         try {
-            boolean deleted = productService.deleteProduct(id);
-            if (deleted) {
-                response.put("status", "success");
-                response.put("message", "Product deleted successfully.");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("status", "failure");
-                response.put("message", "Product not found.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-            }
+            productService.deleteProduct(id);
+            response.put("status", "success");
+            response.put("message", "Product deleted successfully.");
+            return ResponseEntity.ok(response);
+        } catch (ResourceNotFoundException e) {
+            response.put("status", "failure");
+            response.put("message", "Product not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         } catch (Exception e) {
             response.put("status", "failure");
             response.put("message", "An error occurred while deleting the product.");
